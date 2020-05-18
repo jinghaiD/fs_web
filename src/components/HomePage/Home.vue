@@ -32,12 +32,14 @@
       <div style="position: absolute;margin-top: 650px;width: 48%;margin-right: 26%;margin-left: 26%;">
         <p style="color:black;font-size: 40px;">热门目的地</p>
         <br/>
-        <Tabs value="name1" style="width: 100%">
+        <Tabs value="北京" style="width: 100%">
           <TabPane v-for="item in citys" :key="item.label" :label=item.label :name=item.value>
-            <v-housecard v-for="item in houses" :key="item.img" v-bind:houses="item" style="width: 31%;float: left;margin: 10px"></v-housecard>
+            <v-housecard v-for="item in houses" :key="item.houseid" v-bind:houses="item" style="width: 31%;float: left;margin: 10px"></v-housecard>
           </TabPane>
         </Tabs>
       </div>
+      <v-signin :signin="signin"></v-signin>
+      <v-signup :signup="signup"></v-signup>
     </div>
 </template>
 
@@ -45,15 +47,22 @@
   import Header from "./Header";
   import HomeSearch from "./HomeSearch";
   import HouseCard from "./HouseCard";
+  import SignIn from "./SignIn";
+  import SignUp from "./SignUp";
     export default {
         name: "Home",
       data(){
           return{
+            signin:false,
+            signup:false,
             pic:0,
             houses:[
-              {img:'https://z1.muscache.cn/pictures/00b12c64-0851-40e7-83aa-6bba10221435.jpg'},
-              {img:'https://z1.muscache.cn/pictures/9bd8f08c-2e78-4665-ab7b-e4952673dabd.jpg'},
-              {img:'https://z1.muscache.cn/pictures/30c10f87-af4b-45e5-8b6d-1a95c88fd5dd.jpg'},
+              {img:'https://z1.muscache.cn/pictures/00b12c64-0851-40e7-83aa-6bba10221435.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"1",lat:"31.22815",lng:"121.5057"},
+              {img:'https://z1.muscache.cn/pictures/9bd8f08c-2e78-4665-ab7b-e4952673dabd.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"2",lat:"31.22815",lng:"121.5057"},
+              {img:'https://z1.muscache.cn/pictures/30c10f87-af4b-45e5-8b6d-1a95c88fd5dd.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"3",lat:"31.22815",lng:"121.5057"},
+              {img:'https://z1.muscache.cn/pictures/00b12c64-0851-40e7-83aa-6bba10221435.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"4",lat:"31.22815",lng:"121.5057"},
+              {img:'https://z1.muscache.cn/pictures/9bd8f08c-2e78-4665-ab7b-e4952673dabd.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"5",lat:"31.22815",lng:"121.5057"},
+              {img:'https://z1.muscache.cn/pictures/30c10f87-af4b-45e5-8b6d-1a95c88fd5dd.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"6",lat:"31.22815",lng:"121.5057"}
             ],
             citys: [
               {value: '北京', label: '北京'},
@@ -88,7 +97,9 @@
         components:{
           "v-header":Header,
           "v-homesearch":HomeSearch,
-          "v-housecard":HouseCard
+          "v-housecard":HouseCard,
+          "v-signin":SignIn,
+          "v-signup":SignUp
         },
       methods:{
         change(event) {

@@ -7,13 +7,13 @@
           </Select>
         </Col>
         <Col span="2">
-          <Button type="default" size="large" ghost style="width: 90%">Default</Button>
+          <Button type="default" size="large" style="width: 90%">搜索</Button>
         </Col>
         <Col span="1" offset="15">
-          <Button type="text" size="large" ghost>Text1</Button>
+          <Button type="text" size="large" @click="open_signup">注册</Button>
         </Col>
         <Col span="1">
-          <Button type="text" size="large" ghost>Text2</Button>
+          <Button type="text" size="large" @click="open_signin">登录</Button>
         </Col>
       </Row>
     </div>
@@ -25,32 +25,22 @@
         data(){
           return{
             cityList: [
-              {
-                value: 'New York',
-                label: 'New York'
-              },
-              {
-                value: 'London',
-                label: 'London'
-              },
-              {
-                value: 'Sydney',
-                label: 'Sydney'
-              },
-              {
-                value: 'Ottawa',
-                label: 'Ottawa'
-              },
-              {
-                value: 'Paris',
-                label: 'Paris'
-              },
-              {
-                value: 'Canberra',
-                label: 'Canberra'
-              }
+              {value: 'New York', label: 'New York'},
+              {value: 'London', label: 'London'},
+              {value: 'Sydney', label: 'Sydney'},
+              {value: 'Ottawa', label: 'Ottawa'},
+              {value: 'Paris', label: 'Paris'},
+              {value: 'Canberra', label: 'Canberra'}
             ],
             selected: '',
+          }
+        },
+        methods:{
+          open_signin(){
+            this.$parent.signin = true
+          },
+          open_signup(){
+            this.$parent.signup = true
           }
         }
     }
