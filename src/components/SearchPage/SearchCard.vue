@@ -31,10 +31,7 @@
         },
       methods:{
           changemap(){
-            console.log(this.$parent.$parent.houseinfo.lat)
-            console.log(this.houses.lat)
             this.$parent.$parent.houseinfo.lat=this.houses.lat
-            console.log(this.$parent.$parent.houseinfo.lat)
             this.$parent.$parent.houseinfo.lng=this.houses.lng
           }
       }

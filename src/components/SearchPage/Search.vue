@@ -1,7 +1,40 @@
 <template>
     <div>
-      <v-header></v-header>
-      <div style="position: relative;width: 100%;height: 1080px">
+      <v-header style="background-color: cadetblue;"></v-header>
+      <Row style="">
+        <Col span="3">
+          <h2>选择人数</h2>
+          <Select v-model="choose.people" style="width:200px" placeholder="选择住房人数" size="large">
+            <Option v-for="item in numberList" :value="item" :key="item">{{ item }}</Option>
+          </Select>
+        </Col>
+        <Col span="3">
+          <h2>选择床位</h2>
+          <Select v-model="choose.bed" style="width:200px" placeholder="选择床位数" size="large">
+            <Option v-for="item in numberList" :value="item" :key="item">{{ item }}</Option>
+          </Select>
+        </Col>
+        <Col span="3">
+          <h2>选择卧室</h2>
+          <Select v-model="choose.room" style="width:200px" placeholder="选择卧室数" size="large">
+            <Option v-for="item in numberList" :value="item" :key="item">{{ item }}</Option>
+          </Select>
+        </Col>
+        <Col span="3">
+          <h2>选择类型</h2>
+          <Select v-model="choose.type" style="width:200px" placeholder="选择住房类型" size="large">
+            <Option v-for="item in typeList" :value="item" :key="item">{{ item }}</Option>
+          </Select>
+        </Col>
+        <Col span="3">
+          <h2>价格区间</h2>
+          <Slider v-model="price" range></Slider>
+        </Col>
+        <Col span="1" offset="8">
+          <Button type="default" size="large" style="width: 90%;margin-top: 10px;">搜索</Button>
+        </Col>
+      </Row>
+      <div style="position: relative;width: 100%;height: 1080px;margin-top: 5px">
         <div style="position: relative;width: 38%;height:1080px;float:left;">
           <Scroll height="1080">
             <v-searchcard v-for="item in houses" :key="item.houseid" v-bind:houses="item" style="width: 95%;float: left;margin-bottom: 20px;margin-left: 20px"></v-searchcard>
@@ -25,6 +58,17 @@
         name: "Search",
         data(){
           return{
+            choose:{
+              people:0,
+              bed:0,
+              room:0,
+              type:"",
+            },
+            price:[0,5000],
+            numberList:[1,2,3,4,5],
+            typeList:[
+              '整套公寓'
+            ],
             houseinfo:{
               lng:"120.5057",
               lat:"30.22815"

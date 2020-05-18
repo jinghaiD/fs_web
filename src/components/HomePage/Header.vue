@@ -1,5 +1,5 @@
 <template>
-    <div style="margin:10px">
+    <div style="padding:10px">
       <Row>
         <Col span="5">
           <Select v-model="selected" filterable size="large">

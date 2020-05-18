@@ -35,7 +35,7 @@
           </bm-marker>
         </baidu-map>
       </div>
-      <div style="position: relative;float: left;height:800px;width:30%;">
+      <div style="position: relative;float: left;height:400px;width:30%;border-style: solid;border-radius: 10px;padding: 10px;border-width: 1px">
         <h1 style="text-align: left;color: cadetblue">￥{{houseinfo.price}}每晚</h1>
         <br/>
         <hr/>
@@ -52,7 +52,6 @@
         <br/>
         <br/>
         <Button type="error" style="width: 100%" size="large">预定</Button>
-        <Button type="error" style="width: 100%" size="large" @click="find">ddd</Button>
       </div>
     </div>
   </div>
@@ -117,5 +116,8 @@
     width: 80%;
     height: 400px;
     margin-top: 50px;
+  }
+  hr{
+    margin-right: 80px;
   }
 </style>
