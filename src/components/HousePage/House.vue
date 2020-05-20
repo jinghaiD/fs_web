@@ -6,8 +6,8 @@
       loop
       @on-change="change($event)"
       style="position: absolute;z-index: -1;width: 100%;height: 800px">
-      <CarouselItem v-for="item in items" :key="item">
-        <div class="imgc"><img :src=item alt=""></div>
+      <CarouselItem v-for="item in this.houseinfo.pics" :key="item.picture">
+        <div class="imgc"><img :src=item.picture alt=""></div>
       </CarouselItem>
     </Carousel>
     <div style="position: absolute;margin-top: 850px;width: 48%;margin-right: 26%;margin-left: 26%;">
@@ -29,7 +29,7 @@
         <br/>
         <h1 style="text-align: left">地理位置</h1>
         <hr/>
-        <baidu-map class="map" :center="{lng: houseinfo.lng, lat: houseinfo.lat}" :zoom="18" :dragging="false">
+        <baidu-map class="map" :center="{lng: houseinfo.lng, lat: houseinfo.lat}" :zoom="18" :dragging="true" :scroll-wheel-zoom="true">
           <bm-marker :position="{lng: houseinfo.lng, lat: houseinfo.lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
             <bm-label content="房间所在地" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
           </bm-marker>
@@ -66,21 +66,18 @@
             people:'',
             peoplenumber:['1','2','3','4','5'],
             houseinfo:{
-              lng:"121.5057",
-              lat:"31.22815",
-              name:"陆家嘴帕克尔国际服务公寓",
-              city:"上海",
+              lng:"",
+              lat:"",
+              name:"",
+              city:"",
               pics:[],
-              type:"整套公寓",
-              bed:2,
-              guest:2,
-              room:3,
-              toilet:2,
-              price:258,
-              introduction:"我的房源靠近东方明珠､适合家庭的活动｡我的房源适合情侣､独自旅行的冒险家､商务旅行者､有小孩的家庭｡\n" +
-                "\n" +
-                "地处陆家嘴金融中心,瞳行到摩天大楼仅仅2分钟,金茂大厦､环球金融中心,地铁口,附近有正大广场购物中心,国金货购物中心,第一八伯伴购物中心,这是陆家嘴最近的一个豪华公寓,园内有游泳池,网球场,健身房,超市,会所等等｡\n" +
-                "室内有冰箱､洗衣机､微波炉,餐橱用具等等｡",
+              type:"",
+              bed:0,
+              guest:0,
+              room:0,
+              toilet:0,
+              price:0,
+              introduction:"",
             },
             items:[
               "https://z1.muscache.cn/pictures/00b12c64-0851-40e7-83aa-6bba10221435.jpg",
@@ -95,11 +92,42 @@
       methods:{
         change(event) {
           this.pic = event;
-        },
-        find(){
-          this.houseinfo.lng='111.111'
-          this.houseinfo.lat='30.3333'
         }
+      },
+      mounted() {
+        this.$axios.post("http://127.0.0.1:5000/house/",
+          {
+             id: parseInt(this.$route.params.houseid)
+          })
+          .then(resp=>{
+            this.houseinfo.name = resp.data.data[0].name
+            this.houseinfo.introduction = resp.data.data[0].introduction
+            this.houseinfo.type = resp.data.data[0].type
+            this.houseinfo.lat = resp.data.data[0].jingdu
+            this.houseinfo.lng = resp.data.data[0].weidu
+            this.houseinfo.price = resp.data.data[0].price
+            this.houseinfo.bed = resp.data.data[0].bed
+            this.houseinfo.toilet = resp.data.data[0].toilet
+            this.houseinfo.room = resp.data.data[0].room
+            this.houseinfo.guest = resp.data.data[0].guest
+            this.houseinfo.city = resp.data.data[0].city
+
+            console.log(resp.data.data[0])
+          })
+          .catch(error=>{
+            console.log(error);
+          });
+        this.$axios.post("http://127.0.0.1:5000/pics/",
+          {
+            houseid: parseInt(this.$route.params.houseid)
+          })
+          .then(resp=>{
+            this.houseinfo.pics = resp.data.data
+            console.log(this.houseinfo.pics)
+          })
+          .catch(error=>{
+            console.log(error);
+          });
       }
     }
 </script>

@@ -15,6 +15,9 @@
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
+      <FormItem>
+        <Button type="primary" @click="handleSubmit('formCustom')">登录</Button>
+      </FormItem>
     </Form>
   </Modal>
 </template>
@@ -46,6 +49,29 @@
           },
           ok(){
             this.$parent.signin = false
+          },
+          handleSubmit(){
+            this.$axios.post('http://localhost:5000/usersignup/', {
+              username:this.formInline.user,
+              password:this.formInline.password
+            })
+              .then((response) => {
+                console.log(response.data);
+                if (response.data == 0){
+                  this.$Message.error('用户名不存在');
+                }else if(response.data == 1){
+                  this.$Message.error('密码不正确');
+                }else{
+                  this.$Message.success('登陆成功')
+                  localStorage.setItem('login', 'true')
+                  localStorage.setItem('username', this.formInline.user)
+                  this.$parent.signin = false
+                  location.reload()
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           }
         }
     }

@@ -9,11 +9,14 @@
         <Col span="2">
           <Button type="default" size="large" style="width: 90%">搜索</Button>
         </Col>
-        <Col span="1" offset="15">
+        <Col span="1" offset="15" v-if="isLogined">
           <Button type="text" size="large" @click="open_signup">注册</Button>
         </Col>
-        <Col span="1">
+        <Col span="1" v-if="isLogined">
           <Button type="text" size="large" @click="open_signin">登录</Button>
+        </Col>
+        <Col span="1" offset="16" v-if="isnotLogined">
+          <Button type="text" size="large">我的</Button>
         </Col>
       </Row>
     </div>
@@ -42,7 +45,15 @@
           open_signup(){
             this.$parent.signup = true
           }
-        }
+        },
+      computed:{
+          isLogined(){
+            return localStorage.getItem('login') === 'false'
+          },
+          isnotLogined(){
+            return localStorage.getItem('login') === 'true'
+          }
+      }
     }
 </script>
 

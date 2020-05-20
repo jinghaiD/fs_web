@@ -34,7 +34,7 @@
         <br/>
         <Tabs value="北京" style="width: 100%">
           <TabPane v-for="item in citys" :key="item.label" :label=item.label :name=item.value>
-            <v-housecard v-for="item in houses" :key="item.houseid" v-bind:houses="item" style="width: 31%;float: left;margin: 10px"></v-housecard>
+            <v-housecard v-for="house in item.id" :key="house" v-bind:house="house" style="width: 31%;float: left;margin: 10px"></v-housecard>
           </TabPane>
         </Tabs>
       </div>
@@ -56,36 +56,24 @@
             signin:false,
             signup:false,
             pic:0,
-            houses:[
-              {img:'https://z1.muscache.cn/pictures/00b12c64-0851-40e7-83aa-6bba10221435.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"1",lat:"31.22815",lng:"121.5057"},
-              {img:'https://z1.muscache.cn/pictures/9bd8f08c-2e78-4665-ab7b-e4952673dabd.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"2",lat:"31.22815",lng:"121.5057"},
-              {img:'https://z1.muscache.cn/pictures/30c10f87-af4b-45e5-8b6d-1a95c88fd5dd.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"3",lat:"31.22815",lng:"121.5057"},
-              {img:'https://z1.muscache.cn/pictures/00b12c64-0851-40e7-83aa-6bba10221435.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"4",lat:"31.22815",lng:"121.5057"},
-              {img:'https://z1.muscache.cn/pictures/9bd8f08c-2e78-4665-ab7b-e4952673dabd.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"5",lat:"31.22815",lng:"121.5057"},
-              {img:'https://z1.muscache.cn/pictures/30c10f87-af4b-45e5-8b6d-1a95c88fd5dd.jpg',name:"Josh & John 原创外语工作室成都Friends-House内与萌猫共享/旅行1-3人单间",type:"整套公寓",bed:"2",price:"250",houseid:"6",lat:"31.22815",lng:"121.5057"}
-            ],
             citys: [
-              {value: '北京', label: '北京'},
-              {value: '西安', label: '西安'},
-              {value: '上海', label: '上海'},
-              {value: '成都', label: '成都'},
-              {value: '三亚', label: '三亚'},
-              {value: '青岛', label: '青岛'},
-              {value: '杭州', label: '杭州'},
-              {value: '广州', label: '广州'},
-              {value: '重庆', label: '重庆'},
-              {value: '厦门', label: '厦门'},
-              {value: '昆明', label: '昆明'},
-              {value: '兰州', label: '兰州'},
-              {value: '南京', label: '南京'},
-              {value: '哈尔滨', label: '哈尔滨'},
-              {value: '济南', label: '济南'},
-              {value: '深圳', label: '深圳'},
-              {value: '长沙', label: '长沙'},
-              {value: '日照', label: '日照'},
-              {value: '洛阳', label: '洛阳'},
-              {value: '晋中', label: '晋中'},
-              {value: '太原', label: '太原'}
+              {value: '北京', label: '北京', id:[2077431,5573471,6622351,7207262,6908156,6855919]},
+              {value: '西安', label: '西安', id:[8656633,9051621,11472668,12047920,12720273,14262615]}
+              // {value: '上海', label: '上海'},
+              // {value: '成都', label: '成都'},
+              // {value: '三亚', label: '三亚'},
+              // {value: '青岛', label: '青岛'},
+              // {value: '杭州', label: '杭州'},
+              // {value: '广州', label: '广州'},
+              // {value: '重庆', label: '重庆'},
+              // {value: '厦门', label: '厦门'},
+              // {value: '昆明', label: '昆明'},
+              // {value: '南京', label: '南京'},
+              // {value: '济南', label: '济南'},
+              // {value: '深圳', label: '深圳'},
+              // {value: '长沙', label: '长沙'},
+              // {value: '日照', label: '日照'},
+              // {value: '洛阳', label: '洛阳'},
             ],
             items:[
               "https://z1.muscache.cn/pictures/00b12c64-0851-40e7-83aa-6bba10221435.jpg",
@@ -105,6 +93,13 @@
         change(event) {
           this.pic = event;
         }
+      },
+      mounted() {
+          if(localStorage.getItem('login') === 'true'){
+
+          }else {
+            localStorage.setItem('login', 'false')
+          }
       }
     }
 </script>

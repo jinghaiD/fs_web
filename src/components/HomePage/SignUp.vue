@@ -27,10 +27,19 @@
     name: "SignUp",
     props:['signup'],
     data(){
+      const validateUsername = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('用户名不能为空'));
+        } else{
+          callback();
+        }
+      };
       const validatePass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please enter your password'));
-        } else {
+          callback(new Error('请输入密码'));
+        } else if(value.length < 6){
+          callback(new Error('密码必须大于6位'));
+        }else{
           if (this.formCustom.passwdCheck !== '') {
             // 对第二个密码框单独验证
             this.$refs.formCustom.validateField('passwdCheck');
@@ -40,45 +49,29 @@
       };
       const validatePassCheck = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('Please enter your password again'));
+          callback(new Error('请再次输入密码'));
         } else if (value !== this.formCustom.passwd) {
-          callback(new Error('The two input passwords do not match!'));
+          callback(new Error('两次输入的密码不匹配'));
         } else {
           callback();
         }
       };
-      const validateAge = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('Age cannot be empty'));
-        }
-        // 模拟异步验证效果
-        setTimeout(() => {
-          if (!Number.isInteger(value)) {
-            callback(new Error('Please enter a numeric value'));
-          } else {
-            if (value < 18) {
-              callback(new Error('Must be over 18 years of age'));
-            } else {
-              callback();
-            }
-          }
-        }, 1000);
-      };
       return{
+        usernameCheck:false,
         formCustom: {
           username:'',
           passwd: '',
           passwdCheck: '',
         },
         ruleCustom: {
+          username: [
+            { validator: validateUsername, trigger: 'blur'}
+          ],
           passwd: [
             { validator: validatePass, trigger: 'blur' }
           ],
           passwdCheck: [
             { validator: validatePassCheck, trigger: 'blur' }
-          ],
-          age: [
-            { validator: validateAge, trigger: 'blur' }
           ]
         }
       }
@@ -93,14 +86,48 @@
       handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            this.$Message.success('Success!');
+            this.checkUsername()
           } else {
-            this.$Message.error('Fail!');
+            this.$Message.error('账号或密码格式错误');
           }
+
         })
       },
       handleReset (name) {
         this.$refs[name].resetFields();
+      },
+      checkUsername(){
+        this.$axios.post("http://127.0.0.1:5000/usercheck/",
+          {
+            username:this.formCustom.username
+          })
+          .then(resp=>{
+            if(resp.data == true){
+              this.usernameCheck = true
+            }else{
+              this.usernameCheck = false
+            }
+            if (this.usernameCheck == true) {
+              this.$Message.error('用户名重复！');
+            } else {
+              this.$Message.success('Success!');
+              this.$parent.signup = false
+              this.$axios.post("http://127.0.0.1:5000/usersignin/",
+                {
+                  username:this.formCustom.username,
+                  password:this.formCustom.passwd
+
+                })
+              .then(resp=>{
+                console.log(resp);
+              }).catch(error=>{
+                console.log(error);
+              })
+            }
+          })
+          .catch(error=>{
+            console.log(error);
+          });
       }
     }
   }
