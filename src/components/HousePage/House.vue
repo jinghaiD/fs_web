@@ -24,13 +24,13 @@
         <br/>
         <br/>
         <br/>
-        <p style="font-size: 20px;text-align: left;padding-right: 300px">{{houseinfo.introduction}}</p>
+        <p style="font-size: 20px;text-align: left;padding-right: 100px">{{houseinfo.introduction}}</p>
         <br/>
         <br/>
         <h1 style="text-align: left">地理位置</h1>
         <hr/>
         <baidu-map class="map" :center="{lng: houseinfo.lng, lat: houseinfo.lat}" :zoom="18" :dragging="true" :scroll-wheel-zoom="true">
-          <bm-marker :position="{lng: houseinfo.lng, lat: houseinfo.lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+          <bm-marker :position="{lng: houseinfo.lng, lat: houseinfo.lat}" :dragging="false" animation="BMAP_ANIMATION_BOUNCE">
             <bm-label content="房间所在地" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
           </bm-marker>
         </baidu-map>
@@ -51,7 +51,7 @@
         </Select>
         <br/>
         <br/>
-        <Button type="error" style="width: 100%" size="large">预定</Button>
+        <Button type="error" style="width: 100%" size="large" @click="sub" :disabled="dis">预定</Button>
       </div>
     </div>
   </div>
@@ -64,6 +64,7 @@
         data(){
           return{
             people:'',
+            dis:false,
             peoplenumber:['1','2','3','4','5'],
             houseinfo:{
               lng:"",
@@ -78,12 +79,8 @@
               toilet:0,
               price:0,
               introduction:"",
+              status:0
             },
-            items:[
-              "https://z1.muscache.cn/pictures/00b12c64-0851-40e7-83aa-6bba10221435.jpg",
-              "https://z1.muscache.cn/pictures/9bd8f08c-2e78-4665-ab7b-e4952673dabd.jpg",
-              "https://z1.muscache.cn/pictures/30c10f87-af4b-45e5-8b6d-1a95c88fd5dd.jpg"
-            ]
           }
         },
         components:{
@@ -92,6 +89,20 @@
       methods:{
         change(event) {
           this.pic = event;
+        },
+        sub(){
+          if(localStorage.login === 'true')
+          this.$axios.post('http://127.0.0.1:5000/subadd/',
+          {username:localStorage.getItem('username'),
+            houseid:this.$route.params.houseid
+          })
+          .then(resp=>{
+          })
+          .catch(error=>{
+            console.log(error)
+          });
+          this.$Message.success('预定成功')
+          this.$router.push({path:'/'})
         }
       },
       mounted() {
@@ -111,8 +122,11 @@
             this.houseinfo.room = resp.data.data[0].room
             this.houseinfo.guest = resp.data.data[0].guest
             this.houseinfo.city = resp.data.data[0].city
-
+            this.houseinfo.status = resp.data.data[0].status
             console.log(resp.data.data[0])
+            if(this.houseinfo.status !== 0){
+              this.dis = true
+            };
           })
           .catch(error=>{
             console.log(error);
@@ -128,6 +142,21 @@
           .catch(error=>{
             console.log(error);
           });
+        if(localStorage.getItem('login') === 'true'){
+          const username = localStorage.getItem('username')
+          const houseid = parseInt(this.$route.params.houseid)
+          this.$axios.post("http://127.0.0.1:5000/history/",
+            {
+              houseid: houseid,
+              username: username
+            })
+            .then(resp=>{
+              console.log(resp);
+            })
+            .catch(error=>{
+            console.log(error);
+          });
+        }
       }
     }
 </script>

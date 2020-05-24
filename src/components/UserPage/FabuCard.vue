@@ -13,8 +13,9 @@
         </div>
         <hr/>
         <h4 style="text-align: left">价格{{house.price}}￥/每晚</h4>
+        <Tag color="success" v-if="house.status == 0">已发布</Tag>
+        <Tag color="error" v-if="house.status == 3">审核中</Tag>
         <Button type="success" size="small" ghost style="float:right;margin-left: 10px" :to="'/house/'+house.id" target='_blank'>查看详情</Button>
-        <Button type="error" size="small" ghost style="float:right;" @click="changemap">查看地点</Button>
       </div>
     </div>
   </div>
@@ -22,23 +23,14 @@
 
 <script>
     export default {
-        name: "SearchCard",
-        props:['house'],
-        data(){
-          return{
-            img:''
-          }
-        },
+      name: "FabuCard",
+      props:['house'],
+      data(){
+        return{
+          img:''
+        }
+      },
       methods:{
-          changemap(){
-            if(this.$parent.check == 1) {
-              this.$parent.$parent.$parent.$parent.$parent.$parent.houseinfo.lat = this.house.jingdu
-              this.$parent.$parent.$parent.$parent.$parent.$parent.houseinfo.lng = this.house.weidu
-            }else {
-              this.$parent.$parent.$parent.$parent.houseinfo.lat = this.house.jingdu
-              this.$parent.$parent.$parent.$parent.houseinfo.lng = this.house.weidu
-            }
-          }
       },
       mounted() {
         this.$axios.post("http://127.0.0.1:5000/pics/",

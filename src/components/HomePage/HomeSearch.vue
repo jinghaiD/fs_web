@@ -16,7 +16,7 @@
       <DatePicker type="daterange" size="large" :start-date="new Date(2020, 4, 14)" placement="bottom-end" placeholder="选择入住日期" style="width: 100%"></DatePicker>
     </Col>
     <Col span="2">
-      <Button type="default" size="large" ghost style="width: 90%">搜索</Button>
+      <Button type="default" size="large" ghost style="width: 90%" :to="'/search/'+this.selected" target="_blank">搜索</Button>
     </Col>
   </Row>
 </template>
@@ -27,30 +27,8 @@
       data () {
         return {
           cityList: [
-            {
-              value: 'New York',
-              label: 'New York'
-            },
-            {
-              value: 'London',
-              label: 'London'
-            },
-            {
-              value: 'Sydney',
-              label: 'Sydney'
-            },
-            {
-              value: 'Ottawa',
-              label: 'Ottawa'
-            },
-            {
-              value: 'Paris',
-              label: 'Paris'
-            },
-            {
-              value: 'Canberra',
-              label: 'Canberra'
-            }
+            {value: '北京', label: '北京'},
+            {value: '西安', label: '西安'}
           ],
           selected: ''
         }
